@@ -21,7 +21,6 @@ export default function WheelModule(props) {
 
   function checkWin(num) {
     props.setSpinned(true);
-    console.log(num);
 
     if (num.checked) {
       console.log("You Won!");
@@ -29,6 +28,8 @@ export default function WheelModule(props) {
         "<em> CONGRATS </em> <span class='win-lose'>YOU WIN</span>"
       );
     } else {
+      console.log("You Lose!");
+
       props.setBanner(
         "<em> TRY AGAIN </em> <span class='win-lose'>YOU LOSE</span>"
       );
