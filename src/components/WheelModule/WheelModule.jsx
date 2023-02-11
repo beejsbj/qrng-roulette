@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function WheelModule(props) {
   const spinTime = 5000;
-  const frameTime = 1000;
+  const frameTime = 150;
 
   // bolean telling if wheel has been spinned
   const [center, setCenter] = useState(0);
@@ -17,6 +17,22 @@ export default function WheelModule(props) {
     setColorSliceColor(`var(--${num.color})`);
     setWhiteSliceColor(`var(--${num.color})`);
     setCenterResultClass(num.color);
+  }
+
+  function checkWin(num) {
+    props.setSpinned(true);
+    console.log(num);
+
+    if (num.checked) {
+      console.log("You Won!");
+      props.setBanner(
+        "<em> CONGRATS </em> <span class='win-lose'>YOU WIN</span>"
+      );
+    } else {
+      props.setBanner(
+        "<em> TRY AGAIN </em> <span class='win-lose'>YOU LOSE</span>"
+      );
+    }
   }
 
   function highlight(timePassed, num) {
@@ -43,33 +59,14 @@ export default function WheelModule(props) {
         }
       }, frameTime);
     } else {
-      if (num.number == 0) {
-        wheelTexts.forEach(function (Text) {
-          Text.classList.add("hide");
-        });
-        zeroes.classList.remove("hide");
-      }
-      console.log(num.number);
-      checkWin(num.number);
-    }
-  }
+      checkWin(num);
 
-  function checkWin(number) {
-    props.setSpinned(true);
-    const found = props.nums.find((num) => {
-      return num.number == number;
-    });
-
-    if (found) {
-      alert("You Won!");
-      console.log("You Won!");
-      props.setBanner(
-        "<em> CONGRATS </em> <span class='win-lose'>YOU WIN</span>"
-      );
-    } else {
-      props.setBanner(
-        "<em> TRY AGAIN </em> <span class='win-lose'>YOU LOSE</span>"
-      );
+      // if (num.number == 0) {
+      //   wheelTexts.forEach(function (Text) {
+      //     Text.classList.add("hide");
+      //   });
+      //   zeroes.classList.remove("hide");
+      // }
     }
   }
 
@@ -82,6 +79,7 @@ export default function WheelModule(props) {
     }
 
     var i = Math.floor(Math.random() * 37);
+
     // highlight the animation at the moment timePassed
     highlight(timePassed, props.nums[i]);
   }
