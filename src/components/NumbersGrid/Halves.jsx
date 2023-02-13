@@ -79,7 +79,11 @@ export default function Halves(props) {
       }
 
       //check for odd or even
-      if (found.category == "oddEven" && num.number % 2 == found.value) {
+      if (
+        found.category == "oddEven" &&
+        num.number > 0 &&
+        num.number % 2 == found.value
+      ) {
         num.checked = found.checked;
       }
 
