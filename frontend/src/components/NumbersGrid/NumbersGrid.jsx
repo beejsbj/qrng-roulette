@@ -9,7 +9,7 @@ import Bid from "../WheelModule/Bid";
 export default function NumbersGrid() {
   const { spinned, isSpinning } = useStore((state) => state.wheel);
   const blink = new howler.Howl({
-    src: ["src/assets/sounds/blink.wav"],
+    src: ["/sounds/blink.wav"],
     volume: 0.1,
   });
 
