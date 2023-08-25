@@ -155,3 +155,7 @@ inner-column {
     /* overflow-y: none; */
   }
 }
+
+header .live-link {
+  color: brown;
+}
