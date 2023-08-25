@@ -11,22 +11,22 @@ function App() {
   return (
     <>
       <header>
-        <ConnectButton />
+        <div className="wallet-wrapper">
+          <a
+            className="button live-link connect heartbeat"
+            href="https://qrng-roulette.netlify.com"
+            target="roulette-qrng"
+          >
+            Go to Live Site
+          </a>
+        </div>
       </header>
       <main className="App page-content">
         <section className="page-section">
-          {isConnected && (
-            <inner-column>
-              <TitleSign />
-              <Roulette />
-            </inner-column>
-          )}
-          {!isConnected && (
-            <inner-column class="dimmed">
-              <TitleSign />
-              <Roulette />
-            </inner-column>
-          )}
+          <inner-column>
+            <TitleSign />
+            <Roulette />
+          </inner-column>
 
           <Loading />
         </section>

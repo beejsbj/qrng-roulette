@@ -66,54 +66,17 @@ export const wheel = (set, get) => ({
     const { setIsSpinning, setResult, setSpinned, setIsWinner } = get().wheel;
     const { contractAddress } = get();
 
-    const roulette = await getContract({
-      address: contractAddress,
-      abi: tokenContract,
-    });
-
-    const config = await prepareWriteContract({
-      abi: tokenContract,
-      address: contractAddress,
-      functionName: selection?.contractFunction, //call function based on selection
-      args: [selection.value],
-      overrides: {
-        value: ethers.utils.parseEther(ticket * 0.001 + ""),
-      },
-    });
-
-    const { hash } = await writeContract(config);
-
     setIsSpinning(true);
 
-    const data = await waitForTransaction({
-      hash,
-      confirmations: 1,
-    });
+    await new Promise((r) => setTimeout(r, 5000));
 
-    const log = data.logs.find((log) => log.address === contractAddress);
-    const parsedLog = roulette.interface.parseLog(log);
-    const logRequestId = parsedLog.args.requestId;
+    setIsSpinning(false);
+    setSpinned(true);
 
-    const unwatch = watchContractEvent(
-      {
-        address: contractAddress,
-        abi: tokenContract,
-        eventName: "SpinComplete",
-      },
+    const result = Math.floor(Math.random() * 37);
+    setResult(result);
 
-      (requestId, spinId, randomNumber) => {
-        if (requestId === logRequestId) {
-          unwatch();
-          const result = ethers.BigNumber.from(randomNumber.mod(37)).toNumber();
-
-          setIsSpinning(false);
-          setSpinned(true);
-          setResult(result);
-
-          const found = numbers.find((item) => item.number === result);
-          setIsWinner(found.checked);
-        }
-      }
-    );
+    const found = numbers.find((item) => item.number === result);
+    setIsWinner(found.checked);
   },
 });
