@@ -15,12 +15,12 @@ export default function WheelModule() {
   );
 
   const neonBlink = new howler.Howl({
-    src: ["/src/assets/sounds/neon-blink.wav"],
+    src: ["src/assets/sounds/neon-blink.wav"],
     volume: 0.01,
   });
 
   const blink = new howler.Howl({
-    src: ["/src/assets/sounds/blink.wav"],
+    src: ["src/assets/sounds/blink.wav"],
     volume: 0.01,
   });
 
