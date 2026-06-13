@@ -1,19 +1,11 @@
 import Wheel from "./Wheel";
 import SpinButton from "./SpinButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useStore from "/src/store";
 import howler from "howler";
-import { useAccount } from "wagmi";
-import Bid from "./Bid";
 import gsap from "gsap";
 
 export default function WheelModule() {
-  const { isConnected } = useAccount();
-
-  const [buttonDisabled, setButtonDisabled] = useState(
-    isConnected ? "" : "disabled"
-  );
-
   const neonBlink = new howler.Howl({
     src: ["/sounds/neon-blink.wav"],
     volume: 0.01,
@@ -25,34 +17,34 @@ export default function WheelModule() {
   });
 
   const { numbers, selection } = useStore((state) => state.grid);
-  const {
-    result,
-    spinned,
-    isSpinning,
-    writeContract: spinWheel,
-  } = useStore((state) => state.wheel);
+  const { result, spinned, isSpinning } = useStore((state) => state.wheel);
+  const { wallet, phase, runRouletteFlow, getIsRunning } = useStore(
+    (state) => state.flow
+  );
 
   const [colorSliceColor, setColorSliceColor] = useState("");
   const [whiteSliceColor, setWhiteSliceColor] = useState("");
   const [centerResultClass, setCenterResultClass] = useState("");
   const [center, setCenter] = useState(null);
-  const [animationId, setAnimationId] = useState(0);
+  const animationId = useRef(null);
   const frameTime = 200;
 
   //functions
 
   useEffect(() => {
     if (isSpinning && !spinned) {
-      setAnimationId(setInterval(animations, frameTime));
+      animationId.current = setInterval(animations, frameTime);
     }
     if (!isSpinning && spinned) {
-      clearInterval(animationId);
+      clearInterval(animationId.current);
       highlight(numbers[result]);
     }
-  }, [isSpinning, spinned]);
+
+    return () => clearInterval(animationId.current);
+  }, [isSpinning, spinned, result]);
 
   async function buttonHandle() {
-    if (buttonDisabled === "disabled") {
+    if (wallet.status !== "connected") {
       shakeConnectButton();
       return;
     }
@@ -62,8 +54,11 @@ export default function WheelModule() {
       return;
     }
 
-    //  setCenter("See Wallet");
-    await spinWheel();
+    if (getIsRunning()) {
+      return;
+    }
+
+    await runRouletteFlow();
   }
 
   function animations() {
@@ -125,8 +120,9 @@ export default function WheelModule() {
       <SpinButton
         center={center}
         buttonHandle={buttonHandle}
-        buttonDisabled={buttonDisabled}
+        buttonDisabled={wallet.status === "connected" ? "" : "disabled"}
         centerResultClass={centerResultClass}
+        phase={phase}
       />
     </wheel-module>
   );
@@ -154,10 +150,10 @@ function shakeGrid() {
   return;
 }
 function shakeConnectButton() {
-  const connectButton = document.querySelector("button.connect");
+  const connectButton = document.querySelector("button.fake-wallet");
   //  scroll to top
-  console.log(connectButton);
   window.scrollTo(0, 0);
+  if (!connectButton) return;
   connectButton.classList.add("wobble-connect");
   setTimeout(() => {
     connectButton.classList.remove("wobble-connect");

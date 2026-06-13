@@ -5,6 +5,18 @@ import useStore from "/src/store";
 export default function SpinButton(props) {
   const { spinned, isSpinning } = useStore((state) => state.wheel);
 
+  const phaseLabel = {
+    "awaiting-signature": "SIGN",
+    "tx-submitted": "TX",
+    "tx-pending": "TX",
+    "tx-confirmed": "LOG",
+    "qrng-requested": "QRNG",
+    "qrng-fulfilled": "QRNG",
+    revealing: "ROLL",
+  };
+
+  const label = phaseLabel[props.phase] ?? "SPIN";
+
   useEffect(() => {
     setTimeout(function () {
       let spinSignLetter = document.querySelector(
@@ -29,10 +41,9 @@ export default function SpinButton(props) {
           className={spinned || isSpinning ? "spin-text hide" : "spin-text"}
         />
         <div className={spinned || isSpinning ? "spin-text hide" : "spin-text"}>
-          <span>S</span>
-          <span>P</span>
-          <span>I</span>
-          <span>N</span>
+          {label.split("").map((letter, index) => (
+            <span key={`${letter}-${index}`}>{letter}</span>
+          ))}
         </div>
         <div
           className={

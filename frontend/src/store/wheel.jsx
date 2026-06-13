@@ -1,13 +1,3 @@
-import tokenContract from "../contracts/roulette.json";
-import { ethers } from "ethers";
-import {
-  prepareWriteContract,
-  writeContract,
-  waitForTransaction,
-  getContract,
-  watchContractEvent,
-} from "@wagmi/core";
-
 export const wheel = (set, get) => ({
   result: null,
   spinned: false, // bolean telling if wheel has been spinned
@@ -61,22 +51,18 @@ export const wheel = (set, get) => ({
       },
     })),
 
-  writeContract: async () => {
-    const { selection, numbers, ticket } = get().grid;
-    const { setIsSpinning, setResult, setSpinned, setIsWinner } = get().wheel;
-    const { contractAddress } = get();
+  resetRound: () =>
+    set((state) => ({
+      ...state,
+      wheel: {
+        ...state.wheel,
+        result: null,
+        spinned: false,
+        isSpinning: false,
+        isWinner: false,
+        loadingContract: { status: false, message: "" },
+      },
+    })),
 
-    setIsSpinning(true);
-
-    await new Promise((r) => setTimeout(r, 5000));
-
-    setIsSpinning(false);
-    setSpinned(true);
-
-    const result = Math.floor(Math.random() * 37);
-    setResult(result);
-
-    const found = numbers.find((item) => item.number === result);
-    setIsWinner(found.checked);
-  },
+  writeContract: async () => get().flow.runRouletteFlow(),
 });

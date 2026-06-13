@@ -2,10 +2,14 @@ import { useEffect } from "react";
 
 import ChooseBox from "./ChooseBox";
 import ResultsBox from "./ResultsBox";
+import BetPreviewBox from "./BetPreviewBox";
+import TransactionStatusBox from "./TransactionStatusBox";
 import useStore from "/src/store";
 
 export default function InfoModule(props) {
-  const spinned = useStore((state) => state.wheel.spinned);
+  const selection = useStore((state) => state.grid.selection);
+  const { phase, wallet, getIsRunning } = useStore((state) => state.flow);
+
   useEffect(() => {
     setTimeout(function () {
       let randomChooseEles = document.querySelectorAll("info-module > * > *");
@@ -15,10 +19,16 @@ export default function InfoModule(props) {
     }, 300);
   }, []);
 
+  const isRunning = getIsRunning();
+  const isSettled = phase === "settled";
+  const canPreview = wallet.status === "connected" && selection;
+
   return (
     <info-module>
-      {!spinned && <ChooseBox />}
-      {spinned && <ResultsBox resultBanner={props.resultBanner} />}
+      {isSettled && <ResultsBox resultBanner={props.resultBanner} />}
+      {!isSettled && isRunning && <TransactionStatusBox />}
+      {!isSettled && !isRunning && canPreview && <BetPreviewBox />}
+      {!isSettled && !isRunning && !canPreview && <ChooseBox />}
     </info-module>
   );
 }

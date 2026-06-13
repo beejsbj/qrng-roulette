@@ -3,6 +3,7 @@ import { devtools } from "zustand/middleware";
 
 import { grid } from "./grid";
 import { wheel } from "./wheel";
+import { flow } from "./flow";
 
 const useStore = create(
   devtools((set, get) => ({
@@ -10,6 +11,7 @@ const useStore = create(
 
     wheel: wheel(set, get),
     grid: grid(set, get),
+    flow: flow(set, get),
 
     errors: [],
     setErrors: (errors) => set({ errors: errors }),
