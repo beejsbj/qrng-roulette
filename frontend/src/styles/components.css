@@ -39,6 +39,11 @@ button:hover {
   min-height: 44px;
 }
 
+.fake-wallet-wrapper {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
 .wallet-wrapper button {
   /* color: var(--white); */
   font-size: 1rem;
@@ -62,6 +67,28 @@ button:hover {
   width: 1.5em;
 }
 
+.fake-wallet {
+  white-space: nowrap;
+}
+
+.fake-wallet.connecting {
+  color: var(--blue);
+}
+
+.wallet-network {
+  color: var(--green);
+  border-bottom: 1px solid currentColor;
+}
+
+.network-dot {
+  display: inline-block;
+  width: 0.65em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0.5em var(--green), 0 0 1.5em var(--green);
+}
+
 .wallet-wrapper button {
   text-shadow: 0 0 10px white, 0 0 20px whitesmoke;
 }
@@ -75,6 +102,11 @@ button.connect.wobble-connect {
   animation: wobble-hor-bottom 0.6s both;
   animation-iteration-count: 2;
   filter: invert(100%);
+}
+
+button.fake-wallet:disabled {
+  cursor: wait !important;
+  filter: saturate(80%);
 }
 
 bid-input {

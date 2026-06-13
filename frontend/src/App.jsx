@@ -1,25 +1,13 @@
 import TitleSign from "./components/TitleSign";
-import ConnectButton from "./components/ConnectButton";
+import FakeWalletButton from "./components/FakeWalletButton";
 import Roulette from "./components/Roulette";
 import Loading from "./components/Loading";
 
-import { useAccount } from "wagmi";
-
 function App() {
-  const { isConnected } = useAccount();
-
   return (
     <>
       <header>
-        <div className="wallet-wrapper">
-          <a
-            className="button live-link connect heartbeat"
-            href="https://qrng-roulette.netlify.com"
-            target="roulette-qrng"
-          >
-            Go to Live Site
-          </a>
-        </div>
+        <FakeWalletButton />
       </header>
       <main className="App page-content">
         <section className="page-section">

@@ -32,7 +32,9 @@ svg#arrow-svg {
 }
 
 /*choose*/
-choose-box {
+choose-box,
+bet-preview-box,
+transaction-status-box {
   color: var(--blue);
   display: grid;
   text-align: center;
@@ -43,6 +45,109 @@ choose-box {
   padding: 20px;
   box-shadow: 0 0 5px, 0 0 10px, 0 0 25px;
   text-shadow: 0 0 0.625em, 0 0 1.25em, 0 0 1.875em;
+}
+
+bet-preview-box,
+transaction-status-box {
+  justify-content: stretch;
+  min-width: min(100%, 280px);
+  gap: 18px;
+}
+
+.module-kicker,
+.status-line,
+.receipt-grid dt,
+.receipt-grid dd {
+  font-family: Tourney, sans-serif;
+  font-style: italic;
+}
+
+.module-kicker {
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow: 0 0 0.625em var(--green), 0 0 1.25em var(--green);
+}
+
+.contract-call {
+  color: var(--red);
+  font-family: Tourney, sans-serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-style: italic;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 0.625em var(--red), 0 0 1.25em var(--red);
+}
+
+.status-line {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
+.flow-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.flow-steps li {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-family: Tourney, sans-serif;
+  font-size: 12px;
+  font-style: italic;
+  padding: 7px 4px;
+  text-shadow: 0 0 0.625em var(--blue);
+}
+
+.flow-steps li.complete {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: 0 0 0.75em var(--green);
+  text-shadow: 0 0 0.625em var(--green);
+}
+
+.flow-steps li.active {
+  border-color: white;
+  color: white;
+  animation: pulsate 1s infinite alternate;
+}
+
+.receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  text-align: left;
+}
+
+.receipt-grid div {
+  border: 1px solid var(--blue);
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 8px;
+}
+
+.receipt-grid dt {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.receipt-grid dd {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 0.625em white;
+  white-space: nowrap;
 }
 
 .or-text,
@@ -90,6 +195,10 @@ results-box {
   padding: 20px;
   box-shadow: 0 0 5px, 0 0 10px, 0 0 25px;
   text-shadow: 0 0 0.3125em, 0 0 0.625em, 0 0 1.25em;
+}
+
+.final-receipt {
+  width: 100%;
 }
 
 results-box .congrats-text {
@@ -144,9 +253,30 @@ results-box .congrats-text span {
   }
 
   choose-box,
-  results-box {
+  results-box,
+  bet-preview-box,
+  transaction-status-box {
     display: flex;
     text-align: start;
+  }
+
+  bet-preview-box,
+  transaction-status-box,
+  results-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .receipt-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flow-steps {
+    grid-template-columns: repeat(5, minmax(42px, 1fr));
+  }
+
+  .flow-steps li {
+    font-size: 10px;
   }
   results-box .congrats-text {
     display: flex;
@@ -203,7 +333,9 @@ results-box .congrats-text span {
   }
 
   choose-box,
-  results-box {
+  results-box,
+  bet-preview-box,
+  transaction-status-box {
     display: grid;
 
     text-align: center;
@@ -234,6 +366,12 @@ results-box .congrats-text span {
     display: flex;
     text-align: left;
     justify-content: space-around;
+  }
+
+  bet-preview-box,
+  transaction-status-box,
+  results-box {
+    align-items: center;
   }
   result-box .choose-text {
     justify-content: initial;
