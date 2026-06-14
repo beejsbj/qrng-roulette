@@ -16,16 +16,50 @@
 @import "modules.css";
 
 body {
-  background-color: var(--paper);
-  background-image: url("../assets/images/wall-bg.jpg");
-  background-position: center center;
-  background-size: cover;
-  background-blend-mode: darken;
+  background-color: var(--wall-tint);
+  /* layered room, back-to-front: brick wall -> deep-navy wash that cools and
+     darkens the warm brick into shadow -> edge vignette -> a single cool bloom
+     from behind the sign. depth + mood, with the brick receding, not shouting. */
+  background-image: radial-gradient(
+      120% 80% at 50% -8%,
+      color-mix(in srgb, var(--blue) 26%, transparent) 0%,
+      transparent 46%
+    ),
+    radial-gradient(
+      125% 125% at 50% 38%,
+      transparent 26%,
+      rgba(0, 0, 0, 0.72) 100%
+    ),
+    linear-gradient(0deg, var(--paper-deep), var(--paper-deep)),
+    url("../assets/images/wall-bg.jpg");
+  background-position: center top, center center, center center, center center;
+  background-size: 100% 70%, cover, cover, cover;
+  background-repeat: no-repeat;
+  background-blend-mode: screen, multiply, multiply, normal;
+  background-attachment: fixed;
 
   overflow-x: hidden;
 
   cursor: url("../assets/images/neon-cursor.cur"), auto;
   user-select: none;
+}
+
+/* fine scanlines sitting above the wall but behind the content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.16) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
 }
 
 .hide {
@@ -46,33 +80,30 @@ h1.attention-voice {
 }
 
 h1.attention-voice::after {
+  --neon: var(--blue);
   content: "";
   position: absolute;
-  bottom: 0;
+  bottom: -0.12em;
   left: 50%;
   transform: translateX(-50%);
 
-  background-color: white;
+  background-color: var(--blue-core);
 
-  width: 100%;
-  height: 3px;
+  width: min(100%, 12em);
+  height: 2px;
+  border-radius: 2px;
 
-  box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 82px #0fa,
-    0 0 92px #0fa, 0 0 151px #0fa;
-
-  will-change: filter, color;
-  filter: saturate(60%);
-  animation: colorFlicker steps(100) 5s infinite;
+  box-shadow: var(--glow-box);
+  will-change: opacity;
+  animation: tube-buzz calc(var(--buzz) * 1.6) infinite;
 }
 
 h1 span,
 .congrats-text span {
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 82px #0fa,
-    0 0 92px #0fa, 0 0 151px #0fa;
-
-  will-change: filter, color;
-  filter: saturate(60%);
-  animation: colorFlicker steps(100) 40s;
+  --neon: var(--blue);
+  color: #fff;
+  text-shadow: var(--glow-text);
+  will-change: opacity;
 }
 
 .loading-screen {

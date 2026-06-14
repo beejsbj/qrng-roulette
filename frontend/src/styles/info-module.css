@@ -6,7 +6,11 @@ info-module {
 }
 
 info-module > * {
-  background-color: var(--paper);
+  background: linear-gradient(
+    158deg,
+    color-mix(in srgb, var(--paper) 72%, transparent),
+    color-mix(in srgb, var(--paper-deep) 78%, transparent)
+  );
 }
 
 svg#arrow-svg {
@@ -35,16 +39,18 @@ svg#arrow-svg {
 choose-box,
 bet-preview-box,
 transaction-status-box {
+  --neon: var(--blue);
   color: var(--blue);
   display: grid;
   text-align: center;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  border: 3px solid white;
-  padding: 20px;
-  box-shadow: 0 0 5px, 0 0 10px, 0 0 25px;
-  text-shadow: 0 0 0.625em, 0 0 1.25em, 0 0 1.875em;
+  gap: 16px;
+  border: 2px solid color-mix(in srgb, var(--blue-core) 80%, transparent);
+  border-radius: 9px;
+  padding: 22px;
+  box-shadow: var(--glow-box), var(--glow-inset);
+  text-shadow: var(--glow-text-soft);
 }
 
 bet-preview-box,
@@ -63,29 +69,48 @@ transaction-status-box {
 }
 
 .module-kicker {
+  --neon: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
   color: var(--green);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0;
-  text-shadow: 0 0 0.625em var(--green), 0 0 1.25em var(--green);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: var(--glow-text-soft);
+}
+
+.module-kicker::before {
+  content: "";
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0.5em currentColor, 0 0 1.2em currentColor;
+  animation: dot-pulse 1.4s ease-in-out infinite;
 }
 
 .contract-call {
-  color: var(--red);
+  --neon: var(--red);
+  color: #fff;
   font-family: Tourney, sans-serif;
   font-size: clamp(18px, 3vw, 26px);
   font-style: italic;
   font-weight: 500;
   overflow-wrap: anywhere;
-  text-shadow: 0 0 0.625em var(--red), 0 0 1.25em var(--red);
+  text-shadow: var(--glow-text);
 }
 
 .status-line {
-  color: var(--blue);
-  font-size: 14px;
+  color: color-mix(in srgb, var(--blue) 82%, white);
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.14em;
   overflow-wrap: anywhere;
   text-transform: uppercase;
+  text-shadow: 0 0 0.6em color-mix(in srgb, var(--blue) 50%, transparent);
 }
 
 .flow-steps {
@@ -95,26 +120,38 @@ transaction-status-box {
 }
 
 .flow-steps li {
-  border: 1px solid var(--blue);
-  color: var(--blue);
+  --neon: var(--blue);
+  border: 1.5px solid color-mix(in srgb, var(--blue) 42%, transparent);
+  border-radius: 5px;
+  color: color-mix(in srgb, var(--blue) 72%, white);
+  background: color-mix(in srgb, var(--blue) 6%, transparent);
   font-family: Tourney, sans-serif;
   font-size: 12px;
   font-style: italic;
-  padding: 7px 4px;
-  text-shadow: 0 0 0.625em var(--blue);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 4px;
+  text-shadow: 0 0 0.5em color-mix(in srgb, var(--blue) 65%, transparent);
+  transition: all 0.28s ease;
 }
 
 .flow-steps li.complete {
-  border-color: var(--green);
+  --neon: var(--green);
+  border-color: color-mix(in srgb, var(--green) 75%, transparent);
   color: var(--green);
-  box-shadow: 0 0 0.75em var(--green);
-  text-shadow: 0 0 0.625em var(--green);
+  background: color-mix(in srgb, var(--green) 12%, transparent);
+  box-shadow: var(--glow-box-soft);
+  text-shadow: var(--glow-text-soft);
 }
 
 .flow-steps li.active {
-  border-color: white;
-  color: white;
-  animation: pulsate 1s infinite alternate;
+  --neon: var(--blue);
+  border-color: var(--blue-core);
+  color: #fff;
+  background: color-mix(in srgb, var(--blue) 22%, transparent);
+  box-shadow: var(--glow-box);
+  text-shadow: var(--glow-text);
+  animation: pulsate 1.1s infinite alternate;
 }
 
 .receipt-grid {
@@ -125,54 +162,67 @@ transaction-status-box {
 }
 
 .receipt-grid div {
-  border: 1px solid var(--blue);
+  border: 1px solid color-mix(in srgb, var(--blue) 32%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--blue) 5%, transparent);
+  box-shadow: inset 0 0 1.3em rgba(0, 0, 0, 0.4);
   display: grid;
   gap: 3px;
   min-width: 0;
-  padding: 8px;
+  padding: 9px 10px;
 }
 
 .receipt-grid dt {
-  color: var(--blue);
-  font-size: 11px;
+  color: color-mix(in srgb, var(--blue) 68%, white);
+  font-size: 10px;
   font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .receipt-grid dd {
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
+  color: #fff;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 0 0.625em white;
+  text-shadow: 0 0 0.5em color-mix(in srgb, var(--blue) 52%, transparent);
   white-space: nowrap;
 }
 
 .or-text,
 .choose-text {
-  fill: #55addd;
-  font-size: 30px;
+  --neon: var(--blue);
+  color: var(--blue-core);
+  font-size: clamp(18px, 4vw, 30px);
   font-family: Tourney, sans-serif;
   font-style: italic;
   font-weight: 300;
+  text-shadow: var(--glow-text-soft);
 }
 
 .or-text {
-  color: var(--blue);
+  color: color-mix(in srgb, var(--blue) 80%, white);
   font-size: 14px;
   font-weight: 800;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 0.6em color-mix(in srgb, var(--blue) 50%, transparent);
 }
 
 .odd-or-even-text,
 .number-text,
 .color-text {
-  color: var(--red);
+  --neon: var(--red);
+  color: var(--red-core);
   font-family: Tourney, sans-serif;
   font-weight: 500;
   font-style: italic;
-  font-size: 24px;
+  font-size: clamp(16px, 3.4vw, 24px);
+  text-shadow: var(--glow-text-soft);
 }
 
 .odd-or-even-text .or-text {
@@ -185,16 +235,18 @@ transaction-status-box {
 
 /*winner*/
 results-box {
+  --neon: var(--blue);
   width: 100%;
   color: var(--blue);
   display: grid;
   text-align: center;
   align-items: center;
-  gap: 15px;
-  border: 3px solid white;
-  padding: 20px;
-  box-shadow: 0 0 5px, 0 0 10px, 0 0 25px;
-  text-shadow: 0 0 0.3125em, 0 0 0.625em, 0 0 1.25em;
+  gap: 16px;
+  border: 2px solid color-mix(in srgb, var(--blue-core) 80%, transparent);
+  border-radius: 9px;
+  padding: 22px;
+  box-shadow: var(--glow-box), var(--glow-inset);
+  text-shadow: var(--glow-text-soft);
 }
 
 .final-receipt {
@@ -231,15 +283,24 @@ results-box .congrats-text span {
   text-shadow: unset !important;
 }
 .play-again {
+  --neon: var(--red);
   font-family: Tourney, sans-serif;
-  font-weight: 100;
+  font-weight: 300;
   font-style: italic;
-  color: var(--red);
-  font-size: 32px;
-  border: 3px solid var(--red);
-  padding: 10px;
-  box-shadow: 0 0 0.3125rem, 0 0 0.625rem, 0 0 1.5625rem;
-  text-shadow: 0 0 0.625em, 0 0 1.25em, 0 0 1.875em;
+  color: #fff;
+  font-size: clamp(24px, 4vw, 32px);
+  border: 2px solid color-mix(in srgb, var(--red) 85%, white);
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: color-mix(in srgb, var(--red) 10%, transparent);
+  box-shadow: var(--glow-box-soft);
+  text-shadow: var(--glow-text);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.play-again:hover {
+  background: color-mix(in srgb, var(--red) 22%, transparent);
+  box-shadow: var(--glow-box);
 }
 
 @media (max-width: 580px) {
@@ -258,6 +319,14 @@ results-box .congrats-text span {
   transaction-status-box {
     display: flex;
     text-align: start;
+  }
+
+  choose-box {
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px 12px;
+    text-align: center;
   }
 
   bet-preview-box,
@@ -308,22 +377,6 @@ results-box .congrats-text span {
   }
   results-box .congrats-text {
     gap: 40px;
-  }
-}
-
-@media (max-width: 550px) {
-  info-module {
-    transform: scale(0.8);
-  }
-}
-@media (max-width: 440px) {
-  info-module {
-    transform: scale(0.6);
-  }
-}
-@media (max-width: 350px) {
-  info-module {
-    transform: scale(0.5);
   }
 }
 
