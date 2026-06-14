@@ -4,6 +4,40 @@ wheel-module {
   justify-self: stretch;
 }
 
+/* spotlight pool behind the hero wheel */
+wheel-module::before {
+  content: "";
+  position: absolute;
+  inset: -8% -6%;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 46%,
+    color-mix(in srgb, var(--blue) 30%, transparent) 0%,
+    color-mix(in srgb, var(--blue) 9%, transparent) 34%,
+    transparent 64%
+  );
+  filter: blur(8px);
+}
+
+/* contact shadow so the wheel sits on something */
+wheel-module::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2%;
+  width: 66%;
+  height: 7%;
+  transform: translateX(-50%);
+  z-index: -3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.6),
+    transparent 70%
+  );
+}
+
 svg {
   fill-rule: evenodd;
   clip-rule: evenodd;
