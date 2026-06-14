@@ -148,7 +148,7 @@ export const flow = (set, get) => ({
       error: null,
     });
 
-    await waitRange(900, 1400);
+    await waitRange(700, 1000);
 
     const tx = createMockTransaction({ selection, ticket });
     mergeFlow(set, {
@@ -157,7 +157,7 @@ export const flow = (set, get) => ({
       ...tx,
     });
 
-    await waitRange(900, 1400);
+    await waitRange(700, 950);
 
     mergeFlow(set, {
       phase: "tx-pending",
@@ -165,7 +165,7 @@ export const flow = (set, get) => ({
       confirmations: 1,
     });
 
-    await waitRange(700, 1100);
+    await waitRange(550, 800);
 
     mergeFlow(set, {
       phase: "tx-confirmed",
@@ -173,8 +173,9 @@ export const flow = (set, get) => ({
       confirmations: 3,
     });
 
-    await waitRange(700, 1000);
+    await waitRange(500, 750);
 
+    // QRNG request: the disc spins up and the centre starts its blurred flash.
     const qrngRequest = createMockQrngRequest(tx.txHash);
     wheel.setIsSpinning(true);
     mergeFlow(set, {
@@ -183,15 +184,17 @@ export const flow = (set, get) => ({
       ...qrngRequest,
     });
 
-    await waitRange(1000, 1600);
+    await waitRange(700, 950);
 
+    // QRNG fulfilled: the winning index is now decided; the wheel keeps blurring
+    // until the reveal step kicks off the decelerating landing onto it.
     const fulfillment = createMockFulfillment();
     mergeFlow(set, {
       phase: "qrng-fulfilled",
       randomWord: fulfillment.randomWord,
     });
 
-    await waitRange(1200, 1800);
+    await waitRange(700, 950);
 
     const settlement = settleRoulette({
       result: fulfillment.result,
@@ -210,7 +213,9 @@ export const flow = (set, get) => ({
     wheel.setIsSpinning(false);
     wheel.setSpinned(true);
 
-    await waitRange(500, 800);
+    // Hold here while the decelerating landing (~2.6s) plays out, so the result
+    // panel only surfaces once the wheel has visibly settled on the number.
+    await waitRange(2650, 2900);
 
     mergeFlow(set, {
       phase: "settled",
