@@ -188,7 +188,7 @@
 
 .loud-voice {
   font-family: Tourney, sans-serif;
-  font-size: 4rem;
+  font-size: clamp(2.2rem, 6vw, 4rem);
   text-transform: capitalize;
 }
 
@@ -217,9 +217,9 @@
 .calm-voice,
 p,
 li {
-  font-family: "Luckiest Guy", cursive;
+  font-family: Tourney, sans-serif;
   font-size: 24px;
-  line-height: 1R;
+  line-height: 1.5;
   max-width: 700px;
 }
 
@@ -239,7 +239,7 @@ li {
 }
 
 .teaser-voice {
-  font-family: "Luckiest Guy", sans-serif;
+  font-family: Tourney, sans-serif;
   font-size: 14px;
   text-transform: capitalize;
 }

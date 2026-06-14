@@ -1,5 +1,5 @@
 numbers-grid {
-  --grid-gap: 5px;
+  --grid-gap: 6px;
   --sizeOfNumber: 20px;
 
   background-color: var(--paper);
@@ -9,6 +9,13 @@ numbers-grid {
   grid-template-columns: 0.2fr 0.2fr 0.6fr;
   gap: var(--grid-gap);
   align-content: start;
+
+  /* read as one lit board: inner depth + a faintly charged frame */
+  padding: var(--grid-gap);
+  border: 1px solid color-mix(in srgb, var(--blue) 22%, transparent);
+  border-radius: 7px;
+  box-shadow: inset 0 0 3.2em rgba(0, 0, 0, 0.55),
+    0 0 1.6em color-mix(in srgb, var(--blue) 14%, transparent);
 }
 
 numbers-grid label {
@@ -17,8 +24,13 @@ numbers-grid label {
   padding: var(--sizeOfNumber);
 
   --color: var(--red);
-  border: 1px solid var(--color);
-  box-shadow: 0px 0px 5px var(--color);
+  --neon: var(--color);
+  border: 1.5px solid color-mix(in srgb, var(--color) 90%, transparent);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--color) 7%, transparent);
+  box-shadow: var(--glow-box-soft);
+  transition: box-shadow 0.22s ease, background 0.22s ease,
+    border-color 0.22s ease, transform 0.12s ease;
 }
 
 numbers-grid zero-number {
@@ -26,7 +38,7 @@ numbers-grid zero-number {
 }
 numbers-grid zero-number label {
   width: 100%;
-  --color: white;
+  --color: var(--green);
 }
 
 numbers-grid #odd + label,
@@ -47,7 +59,9 @@ numbers-grid #second-24 + label {
 
 numbers-grid label:hover {
   --color: var(--green) !important;
-  box-shadow: 0px 0px 20px var(--color) !important;
+  box-shadow: var(--glow-box) !important;
+  background: color-mix(in srgb, var(--green) 16%, transparent) !important;
+  transform: translateY(-1px);
   cursor: url("../assets/images/neon-pointer.cur"), auto;
 }
 
@@ -60,7 +74,7 @@ label.checked :is(::after, ::before) {
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: 0px 0px 20px var(--color);
+  box-shadow: 0 0 1.4em var(--color);
   z-index: -99;
 }
 
@@ -73,18 +87,21 @@ numbers-grid span {
   left: 50%;
   transform: translate(-50%, -50%);
   text-transform: uppercase;
+  text-shadow: 0 0 0.5em color-mix(in srgb, var(--color) 60%, transparent);
 }
 
 numbers-grid input:checked + label span,
 label.checked span {
   --color: var(--green);
-  text-shadow: 0 0 0.625em var(--color), 0 0 1.25em var(--color),
-    0 0 2.5em var(--color), 0 0 5em var(--color);
-  color: var(--color);
+  text-shadow: var(--glow-text);
+  color: #fff;
 }
 numbers-grid input:checked + label,
 label.checked {
   --color: var(--green);
+  border-color: var(--green);
+  background: color-mix(in srgb, var(--green) 20%, transparent);
+  box-shadow: var(--glow-box);
 }
 
 numbers-grid input {
@@ -110,10 +127,14 @@ numbers-grid .chunks label {
 numbers-grid .chunks span {
   writing-mode: vertical-rl;
   text-orientation: sideways;
+  letter-spacing: 0.16em;
+  font-size: calc(var(--sizeOfNumber) * 0.64);
+  font-weight: 500;
+  font-style: italic;
 }
 
 .halves#red-check + label {
-  background-color: var(--color);
+  background: color-mix(in srgb, var(--color) 28%, transparent);
 }
 .halves#blue-check + label {
   --color: var(--blue);

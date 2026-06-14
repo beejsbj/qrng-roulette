@@ -1,25 +1,61 @@
-	
 html {
+  /* ---- layout widths ---- */
+  --standard: 1140px;
+  --tight: 800px;
+  --wide: 1400px;
 
-	--standard: 1140px;
-	--tight: 800px;
-	--wide: 1400px;
+  /* ---- base palette ---- */
+  --black: #111111;
+  --white: hsla(0, 0%, 100%, 1);
+  --neutral-stuffs: hsla(0, 0%, 46%, 1);
 
-	--black: #111111;
-	--white: hsla(0, 0%, 100%, 1.00);
+  /* neon hue anchors — the identity. do not change the hues. */
+  --red: #f653a2; /* hot pink tube */
+  --blue: #52b2ed; /* electric cyan tube */
+  --green: hsla(144, 100%, 47%, 1); /* acid green tube */
 
-	--neutral-stuffs: hsla(0, 0%, 46%, 1.00);
+  /* lit cores — a powered tube's hottest centre reads near-white, faintly tinted */
+  --red-core: #ffe3f1;
+  --blue-core: #e2f4ff;
+  --green-core: #d6ffe9;
 
-	--red:  #f653a2;
-	--blue:  #52b2ed;
-	--green:  hsla(144, 100%, 41%, 1.00);
+  --shadow: rgba(0, 0, 0, 0.8);
+  --corners: 10px;
 
-	--shadow: rgba(0,0,0,.8);
+  /* ---- surfaces & depth ---- */
+  --paper: hsla(240, 100%, 13%, 1); /* deep electric-navy plate */
+  --paper-deep: hsla(244, 92%, 8%, 1);
+  --wall-tint: hsla(244, 86%, 5%, 1);
+  --glass: color-mix(in srgb, var(--paper) 68%, transparent);
+  --edge: color-mix(in srgb, var(--blue) 30%, transparent);
+  --ink: var(--black);
 
-	--corners: 10px; /* or whatevers */
+  /* ---- neon light recipe ----------------------------------------------
+     Set --neon (and optionally --neon-core) on any element, then apply:
+       text-shadow: var(--glow-text);   box-shadow: var(--glow-box);
+     Each tube becomes hot white core -> saturated bloom -> wide soft haze,
+     consistently, instead of hand-stacked one-off shadows.
+     Radii are in em so glow scales with the type size automatically.        */
+  --neon: var(--blue);
+  --neon-core: #ffffff;
+  --neon-haze: color-mix(in srgb, var(--neon) 52%, transparent);
+  --neon-haze-faint: color-mix(in srgb, var(--neon) 26%, transparent);
 
-	--paper: hsla(240, 100%, 13%, 1.00);
-	--ink: var(--black);
+  --glow-text: 0 0 0.03em var(--neon-core), 0 0 0.09em var(--neon-core),
+    0 0 0.26em var(--neon), 0 0 0.68em var(--neon), 0 0 1.5em var(--neon),
+    0 0 2.9em var(--neon-haze);
 
+  --glow-text-soft: 0 0 0.04em var(--neon-core), 0 0 0.22em var(--neon),
+    0 0 0.85em var(--neon), 0 0 1.8em var(--neon-haze);
+
+  --glow-box: 0 0 0.1em var(--neon-core), 0 0 0.42em var(--neon),
+    0 0 1.05em var(--neon), 0 0 2.7em var(--neon-haze);
+
+  --glow-box-soft: 0 0 0.05em var(--neon-core), 0 0 0.5em var(--neon),
+    0 0 1.7em var(--neon-haze-faint);
+
+  --glow-inset: inset 0 0 0.8em color-mix(in srgb, var(--neon) 32%, transparent);
+
+  /* ---- motion ---- */
+  --buzz: 7.2s; /* idle tube flicker cadence */
 }
-
