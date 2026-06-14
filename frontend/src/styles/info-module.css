@@ -14,6 +14,7 @@ info-module > * {
 }
 
 svg#arrow-svg {
+  display: none;
   position: absolute;
   max-width: 90px;
   top: -50px;
@@ -51,6 +52,19 @@ transaction-status-box {
   padding: 22px;
   box-shadow: var(--glow-box), var(--glow-inset);
   text-shadow: var(--glow-text-soft);
+}
+
+/* the choose panel reads as a titled console screen, like the live trace */
+choose-box::before {
+  content: "HOW TO PLAY";
+  width: 100%;
+  color: var(--green);
+  font-family: Tourney, sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 0.6em color-mix(in srgb, var(--green) 55%, transparent);
 }
 
 bet-preview-box,

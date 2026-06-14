@@ -1,6 +1,6 @@
 inner-column {
   display: grid;
-  gap: 40px;
+  gap: clamp(16px, 2.4vw, 26px);
   justify-items: center;
 }
 
