@@ -218,3 +218,135 @@ bid-input sub {
   font-weight: 800;
   text-shadow: 0 0 0.55em color-mix(in srgb, var(--blue) 50%, transparent);
 }
+
+/* ---- dApp HUD strip ---- */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 28px);
+  flex-wrap: wrap;
+  padding: 9px clamp(14px, 3vw, 34px);
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px solid color-mix(in srgb, var(--blue) 26%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--paper-deep) 78%, transparent),
+    transparent
+  );
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--blue) 30%, transparent),
+    0 10px 34px rgba(0, 0, 0, 0.5);
+}
+
+.hud-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+.hud-logo {
+  --neon: var(--green);
+  font-family: Tourney, sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: var(--glow-text);
+}
+
+.hud-brand-sub {
+  --neon: var(--red);
+  font-family: Tourney, sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.95rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red-core);
+  text-shadow: var(--glow-text-soft);
+}
+
+.hud-readout {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 22px);
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hud-stat {
+  font-family: Tourney, sans-serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--blue) 70%, white);
+  white-space: nowrap;
+}
+
+.hud-mono {
+  font-family: "Courier New", ui-monospace, monospace;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--blue) 62%, white);
+}
+
+.hud-oracle {
+  color: color-mix(in srgb, var(--green) 72%, white);
+  text-shadow: 0 0 0.6em color-mix(in srgb, var(--green) 40%, transparent);
+}
+
+.hud-phase {
+  color: color-mix(in srgb, var(--red) 72%, white);
+}
+
+.hud-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+}
+
+.hud-dot {
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--neutral-stuffs);
+  box-shadow: 0 0 0.4em currentColor;
+}
+
+.hud-state.live {
+  color: var(--green);
+}
+.hud-state.live .hud-dot {
+  background: var(--green);
+  box-shadow: 0 0 0.5em var(--green), 0 0 1.2em var(--green);
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+.hud-state.ready {
+  color: var(--blue);
+}
+.hud-state.ready .hud-dot {
+  background: var(--blue);
+  box-shadow: 0 0 0.5em var(--blue);
+}
+.hud-state.offline {
+  color: var(--neutral-stuffs);
+}
+.hud-state.offline .hud-dot {
+  background: var(--neutral-stuffs);
+  box-shadow: none;
+}
+
+/* cool the connect CTA from warm orange to a hot-pink tube */
+.button.connect.fake-wallet {
+  --neon: var(--red);
+  color: #fff;
+  --color1: var(--red);
+  --color2: var(--red);
+  --color3: var(--red);
+  --color4: var(--red);
+  text-shadow: var(--glow-text-soft);
+}
