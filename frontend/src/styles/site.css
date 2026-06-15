@@ -36,7 +36,6 @@ body {
   background-size: 100% 70%, cover, cover, cover;
   background-repeat: no-repeat;
   background-blend-mode: screen, multiply, multiply, normal;
-  background-attachment: fixed;
 
   overflow-x: hidden;
 
@@ -55,11 +54,10 @@ body::before {
     0deg,
     rgba(0, 0, 0, 0) 0px,
     rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.16) 3px,
+    rgba(0, 0, 0, 0.22) 3px,
     rgba(0, 0, 0, 0) 4px
   );
-  mix-blend-mode: multiply;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 /* a dim reflective floor so the machine stands in a room, not infinite wall */

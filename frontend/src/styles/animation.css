@@ -46,11 +46,6 @@ inner-column {
   .wallet-wrapper .balance {
     animation: colorFlicker steps(100) 60s;
   }
-
-  div.result {
-    animation: pulsate 2s infinite alternate;
-    animation-delay: 5s !important;
-  }
 }
 
 @keyframes flicker-in-2 {
@@ -836,35 +831,6 @@ rules-card.slide-in-left {
   }
 }
 
-/* the CTA quietly breathing while it waits for a bet */
-@keyframes spin-ready {
-  0%,
-  100% {
-    filter: drop-shadow(
-        0 0 0.5em color-mix(in srgb, var(--green) 55%, transparent)
-      )
-      drop-shadow(0 0 1.5em color-mix(in srgb, var(--blue) 28%, transparent));
-  }
-  50% {
-    filter: drop-shadow(
-        0 0 0.9em color-mix(in srgb, var(--green) 72%, transparent)
-      )
-      drop-shadow(0 0 2.4em color-mix(in srgb, var(--blue) 44%, transparent));
-  }
-}
-
-/* the spotlight behind the wheel slowly breathes, so the idle table feels live */
-@keyframes spotlight-breathe {
-  0%,
-  100% {
-    opacity: 0.72;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,
