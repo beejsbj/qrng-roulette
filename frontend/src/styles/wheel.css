@@ -13,12 +13,10 @@ wheel-module::before {
   pointer-events: none;
   background: radial-gradient(
     circle at 50% 46%,
-    color-mix(in srgb, var(--blue) 30%, transparent) 0%,
-    color-mix(in srgb, var(--blue) 9%, transparent) 34%,
-    transparent 64%
+    color-mix(in srgb, var(--blue) 26%, transparent) 0%,
+    color-mix(in srgb, var(--blue) 8%, transparent) 36%,
+    transparent 66%
   );
-  filter: blur(8px);
-  animation: spotlight-breathe 7.5s ease-in-out infinite;
 }
 
 /* contact shadow so the wheel sits on something */
@@ -53,6 +51,11 @@ svg.wheel {
 
   position: relative;
   z-index: -1;
+
+  /* promote to its own compositor layer so the continuous rotation is a cheap
+     GPU transform of a once-rasterized texture, not a per-frame repaint of a
+     huge filtered SVG */
+  will-change: transform;
 
   /* lit glass disc: a thin charged rim, a bloom of pooled light around it,
      and an inner vignette so the wheel reads as a curved surface, not a sticker */
@@ -124,11 +127,6 @@ svg.wheel text {
 
   filter: drop-shadow(0 0 0.5em color-mix(in srgb, var(--green) 55%, transparent))
     drop-shadow(0 0 1.5em color-mix(in srgb, var(--blue) 28%, transparent));
-}
-
-/* breathe a "ready to roll" glow while idle; goes still once the wheel commits */
-.button#spin:not(.pointer-event) {
-  animation: spin-ready 2.8s ease-in-out infinite;
 }
 
 .button#spin:not(.pointer-event):hover {
