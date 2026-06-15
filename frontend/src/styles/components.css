@@ -253,6 +253,7 @@ bid-input sub {
   letter-spacing: 0.06em;
   color: #fff;
   text-shadow: var(--glow-text);
+  animation: tube-buzz calc(var(--buzz) * 1.1) infinite;
 }
 
 .hud-brand-sub {

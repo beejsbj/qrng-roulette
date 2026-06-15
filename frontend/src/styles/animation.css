@@ -853,6 +853,19 @@ rules-card.slide-in-left {
   }
 }
 
+/* the spotlight behind the wheel slowly breathes, so the idle table feels live */
+@keyframes spotlight-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

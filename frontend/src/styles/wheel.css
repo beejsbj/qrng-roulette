@@ -18,6 +18,7 @@ wheel-module::before {
     transparent 64%
   );
   filter: blur(8px);
+  animation: spotlight-breathe 7.5s ease-in-out infinite;
 }
 
 /* contact shadow so the wheel sits on something */
