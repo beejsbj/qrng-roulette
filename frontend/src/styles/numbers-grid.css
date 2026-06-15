@@ -1,8 +1,7 @@
 numbers-grid {
   --grid-gap: 6px;
   --sizeOfNumber: 20px;
-
-  background-color: var(--paper);
+  --felt: hsl(168, 36%, 9%);
 
   color: white;
   display: grid;
@@ -10,11 +9,28 @@ numbers-grid {
   gap: var(--grid-gap);
   align-content: start;
 
-  /* read as one lit board: inner depth + a faintly charged frame */
-  padding: var(--grid-gap);
-  border: 1px solid color-mix(in srgb, var(--blue) 22%, transparent);
-  border-radius: 7px;
-  box-shadow: inset 0 0 3.2em rgba(0, 0, 0, 0.55),
+  /* a dark casino-felt table: woven nap, top light, and a raised inner rail */
+  padding: calc(var(--grid-gap) * 1.7);
+  background-color: var(--felt);
+  background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.016) 0 1px,
+      transparent 1px 5px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0, 0, 0, 0.14) 0 1px,
+      transparent 1px 5px
+    ),
+    radial-gradient(
+      135% 120% at 50% -12%,
+      rgba(255, 255, 255, 0.05),
+      transparent 58%
+    );
+  border: 1px solid color-mix(in srgb, var(--blue) 24%, transparent);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--green) 12%, transparent),
+    inset 0 0 3.6em rgba(0, 0, 0, 0.6),
     0 0 1.6em color-mix(in srgb, var(--blue) 14%, transparent);
 }
 
@@ -96,12 +112,22 @@ label.checked span {
   text-shadow: var(--glow-text);
   color: #fff;
 }
+/* placing a bet drops a glowing chip onto the felt: ridged edge, face, stack */
 numbers-grid input:checked + label,
 label.checked {
   --color: var(--green);
-  border-color: var(--green);
-  background: color-mix(in srgb, var(--green) 20%, transparent);
-  box-shadow: var(--glow-box);
+  --neon: var(--green);
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--green) 78%, white);
+  background: radial-gradient(
+    circle at 50% 36%,
+    color-mix(in srgb, var(--green) 34%, var(--paper-deep)),
+    color-mix(in srgb, var(--green) 13%, var(--paper-deep)) 72%
+  );
+  box-shadow: var(--glow-box),
+    0 4px 0 color-mix(in srgb, var(--green) 22%, black),
+    0 9px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
 }
 
 numbers-grid input {
