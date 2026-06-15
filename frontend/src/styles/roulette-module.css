@@ -2,6 +2,16 @@ inner-column {
   display: grid;
   gap: clamp(16px, 2.4vw, 26px);
   justify-items: center;
+  width: 100%;
+  max-width: min(1320px, 96vw);
+}
+
+/* ROULETTE becomes the cabinet's marquee, mounted across the top */
+roulette-module > h1.attention-voice {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin: 0 0 4px;
+  z-index: 1;
 }
 
 roulette-module {
@@ -64,7 +74,12 @@ numbers-grid {
 @media (min-width: 1050px) {
   roulette-module {
     display: grid;
-    grid-template-columns: 0.4fr 1fr 0.4fr;
+    /* the wheel takes the stage; the board and screen flank it with floors */
+    grid-template-columns:
+      minmax(210px, 0.42fr)
+      minmax(0, 1.35fr)
+      minmax(250px, 0.42fr);
+    align-items: center;
   }
 
   numbers-grid {
