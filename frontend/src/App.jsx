@@ -1,4 +1,3 @@
-import TitleSign from "./components/TitleSign";
 import FakeWalletButton from "./components/FakeWalletButton";
 import HudStatus from "./components/HudStatus";
 import Roulette from "./components/Roulette";
@@ -18,7 +17,6 @@ function App() {
       <main className="App page-content">
         <section className="page-section">
           <inner-column>
-            <TitleSign />
             <Roulette />
           </inner-column>
 
