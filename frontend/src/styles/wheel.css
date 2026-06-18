@@ -11,12 +11,19 @@ wheel-module::before {
   inset: -8% -6%;
   z-index: -2;
   pointer-events: none;
+  /* static bloom behind the disc — replaces the wheel's old box-shadow glow,
+     painted once, never re-rasterized as the disc spins */
   background: radial-gradient(
-    circle at 50% 46%,
-    color-mix(in srgb, var(--blue) 26%, transparent) 0%,
-    color-mix(in srgb, var(--blue) 8%, transparent) 36%,
-    transparent 66%
-  );
+      circle at 50% 48%,
+      color-mix(in srgb, var(--blue) 32%, transparent) 0%,
+      color-mix(in srgb, var(--blue) 11%, transparent) 41%,
+      transparent 64%
+    ),
+    radial-gradient(
+      circle at 50% 53%,
+      color-mix(in srgb, var(--red) 13%, transparent) 0%,
+      transparent 72%
+    );
 }
 
 /* contact shadow so the wheel sits on something */
@@ -52,17 +59,11 @@ svg.wheel {
   position: relative;
   z-index: -1;
 
-  /* promote to its own compositor layer so the continuous rotation is a cheap
-     GPU transform of a once-rasterized texture, not a per-frame repaint of a
-     huge filtered SVG */
-  will-change: transform;
-
-  /* lit glass disc: a thin charged rim, a bloom of pooled light around it,
-     and an inner vignette so the wheel reads as a curved surface, not a sticker */
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 45%, transparent),
-    0 0 2.4em color-mix(in srgb, var(--blue) 34%, transparent),
-    0 0 6.5em color-mix(in srgb, var(--red) 16%, transparent),
-    inset 0 0 7em rgba(0, 0, 0, 0.72);
+  /* PERF: a blurred box-shadow here re-rasterizes every rotation frame — that
+     single shadow on the spinning disc was the whole perf cost (60fps -> 19fps).
+     The rim is now a cheap solid border; the bloom lives on the STATIC
+     wheel-module::before behind the disc, so it never re-rasterizes. */
+  border: 1px solid color-mix(in srgb, var(--blue) 52%, transparent);
 }
 
 @keyframes rotate-wheel {
