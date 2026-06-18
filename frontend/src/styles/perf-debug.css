@@ -1,0 +1,61 @@
+/* Performance bisection overrides — inert unless perfHarness adds an off-* class
+   to <html> (driven by ?off=... URL flags). Each block disables one suspected
+   cost so we can binary-search what's actually eating frames. See PERF_DEBUG.md. */
+
+/* glows: many large blurred shadows are the prime GPU-rasterization suspect */
+html.off-glow *,
+html.off-glow *::before,
+html.off-glow *::after {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* all motion (rules out animation-driven repaint) */
+html.off-anim *,
+html.off-anim *::before,
+html.off-anim *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* all filters (blur, drop-shadow, saturate, etc.) */
+html.off-filter *,
+html.off-filter *::before,
+html.off-filter *::after {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* the continuously rotating wheel SVG + its compositor layer */
+html.off-wheelspin svg.wheel {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* just the wheel's rim/bloom box-shadow, keep it spinning */
+html.off-wheelshadow svg.wheel {
+  box-shadow: none !important;
+}
+
+/* remove the wheel SVG from the page entirely (tests its raw layer/DOM cost) */
+html.off-wheelhide svg.wheel {
+  display: none !important;
+}
+
+/* felt board texture gradients */
+html.off-felt numbers-grid {
+  background-image: none !important;
+}
+
+/* room atmosphere: scanlines + floor */
+html.off-room body::before,
+html.off-room body::after {
+  display: none !important;
+}
+
+/* cabinet + console screens: shadows and translucent fills */
+html.off-cabinet roulette-module,
+html.off-cabinet info-module > * {
+  box-shadow: none !important;
+  background: transparent !important;
+}
