@@ -17,6 +17,7 @@ const initialWallet = {
 
 const initialFlowState = {
   phase: "disconnected",
+  activeRunId: null,
   activeStep: null,
   txHash: null,
   nonce: null,
@@ -50,6 +51,32 @@ function mergeFlow(set, updates) {
       ...updates,
     },
   }));
+}
+
+function createRunId() {
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function snapshotBet({ selection, ticket, numbers }) {
+  return {
+    selection: selection ? { ...selection } : null,
+    ticket: Number(ticket || 0),
+    numbers: numbers.map(({ number, checked, color }) => ({
+      number,
+      checked,
+      color,
+    })),
+  };
+}
+
+function isRunActive(get, runId) {
+  const { activeRunId, wallet } = get().flow;
+  return activeRunId === runId && wallet.status === "connected";
+}
+
+async function waitForActiveRun(get, runId, min, max) {
+  await waitRange(min, max);
+  return isRunActive(get, runId);
 }
 
 export const flow = (set, get) => ({
@@ -115,7 +142,8 @@ export const flow = (set, get) => ({
 
   runRouletteFlow: async () => {
     const { grid, wheel } = get();
-    const { selection, ticket, numbers } = grid;
+    const submittedBet = snapshotBet(grid);
+    const { selection, ticket, numbers } = submittedBet;
 
     if (get().flow.wallet.status !== "connected") {
       mergeFlow(set, {
@@ -137,18 +165,21 @@ export const flow = (set, get) => ({
       return;
     }
 
+    const runId = createRunId();
+
     wheel.resetRound();
 
     mergeFlow(set, {
       ...initialFlowState,
       wallet: get().flow.wallet,
+      activeRunId: runId,
       phase: "awaiting-signature",
       activeStep: "signature",
       contractCall: null,
       error: null,
     });
 
-    await waitRange(700, 1000);
+    if (!(await waitForActiveRun(get, runId, 700, 1000))) return;
 
     const tx = createMockTransaction({ selection, ticket });
     mergeFlow(set, {
@@ -157,7 +188,7 @@ export const flow = (set, get) => ({
       ...tx,
     });
 
-    await waitRange(700, 950);
+    if (!(await waitForActiveRun(get, runId, 700, 950))) return;
 
     mergeFlow(set, {
       phase: "tx-pending",
@@ -165,7 +196,7 @@ export const flow = (set, get) => ({
       confirmations: 1,
     });
 
-    await waitRange(550, 800);
+    if (!(await waitForActiveRun(get, runId, 550, 800))) return;
 
     mergeFlow(set, {
       phase: "tx-confirmed",
@@ -173,10 +204,11 @@ export const flow = (set, get) => ({
       confirmations: 3,
     });
 
-    await waitRange(500, 750);
+    if (!(await waitForActiveRun(get, runId, 500, 750))) return;
 
     // QRNG request: the disc spins up and the centre starts its blurred flash.
     const qrngRequest = createMockQrngRequest(tx.txHash);
+    if (!isRunActive(get, runId)) return;
     wheel.setIsSpinning(true);
     mergeFlow(set, {
       phase: "qrng-requested",
@@ -184,7 +216,7 @@ export const flow = (set, get) => ({
       ...qrngRequest,
     });
 
-    await waitRange(700, 950);
+    if (!(await waitForActiveRun(get, runId, 700, 950))) return;
 
     // QRNG fulfilled: the winning index is now decided; the wheel keeps blurring
     // until the reveal step kicks off the decelerating landing onto it.
@@ -194,7 +226,7 @@ export const flow = (set, get) => ({
       randomWord: fulfillment.randomWord,
     });
 
-    await waitRange(700, 950);
+    if (!(await waitForActiveRun(get, runId, 700, 950))) return;
 
     const settlement = settleRoulette({
       result: fulfillment.result,
@@ -203,6 +235,7 @@ export const flow = (set, get) => ({
       ticket,
     });
 
+    if (!isRunActive(get, runId)) return;
     mergeFlow(set, {
       phase: "revealing",
       activeStep: "reveal",
@@ -215,10 +248,11 @@ export const flow = (set, get) => ({
 
     // Hold here while the decelerating landing (~2.6s) plays out, so the result
     // panel only surfaces once the wheel has visibly settled on the number.
-    await waitRange(2650, 2900);
+    if (!(await waitForActiveRun(get, runId, 2650, 2900))) return;
 
     mergeFlow(set, {
       phase: "settled",
+      activeRunId: null,
       activeStep: "receipt",
       receipt: {
         ...settlement,
