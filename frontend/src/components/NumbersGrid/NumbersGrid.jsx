@@ -8,13 +8,16 @@ import Bid from "../WheelModule/Bid";
 
 export default function NumbersGrid() {
   const { spinned, isSpinning } = useStore((state) => state.wheel);
+  const isFlowRunning = useStore((state) => state.flow.getIsRunning());
   const blink = new howler.Howl({
     src: ["/sounds/blink.wav"],
     volume: 0.1,
   });
 
   return (
-    <numbers-grid class={isSpinning || spinned ? "pointer-events-none" : ""}>
+    <numbers-grid
+      class={isFlowRunning || isSpinning || spinned ? "pointer-events-none" : ""}
+    >
       <ZeroNumber blink={blink} />
       <Numbers blink={blink} />
       <Halves blink={blink} />
